@@ -1,11 +1,28 @@
 package me.tmdtjq32.myproject;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
+
+import java.util.Random;
 
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Study {
-    private StudyStatus status = StudyStatus.DRAFT;
-    private Integer limit = 0;
+    private StudyStatus status;
+    private Integer limit;
+    private String name;
+    private Random random;
+
+    @Override
+    public String toString() {
+        return "Study{" +
+                "status=" + status +
+                ", limit=" + limit +
+                ", name='" + name + '\'' +
+                ", random=" + random +
+                ", hashCode=" + hashCode() +
+                '}';
+    }
 }
