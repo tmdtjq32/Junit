@@ -1,8 +1,8 @@
 package me.tmdtjq32.myproject;
 
+import me.tmdtjq32.myproject.domain.Study;
+import me.tmdtjq32.myproject.study.StudyStatus;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,10 +23,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // Test할 때마다 class당 인스턴스가 생성됨 default PER_METHOD
 class Study_Test {
 
+    @BeforeEach
+    void beforeEach(){
+        System.out.println(this);
+    }
+
     @DisplayName("반복 테스트")
-    @RepeatedTest(value = 10, name = "{displayName}, {currentRepetition} / {totalRepetitions}")
+    @RepeatedTest(value = 3, name = "{displayName}, {currentRepetition} / {totalRepetitions}")
     void repeatTest(RepetitionInfo repetitionInfo){
         Study study = Study.builder()
                 .random(new Random())
@@ -39,7 +45,7 @@ class Study_Test {
         System.out.println(study.getRandom().nextInt() % 10);
     }
 
-    @DisplayName("인자 테스트")
+    @DisplayName("하나의 인자 테스트")
     @ParameterizedTest(name = "{index} {displayName} message = {0}")
     @ValueSource(ints = {10,20,40})
     void singleParameterizedTest(@ConvertWith(StudyConverter.class) Study study){
@@ -59,7 +65,7 @@ class Study_Test {
         }
     }
 
-    @DisplayName("인자 테스트")
+    @DisplayName("여러 인자 테스트")
     @ParameterizedTest(name = "{index} {displayName} message = {0}")
     @CsvSource({"10, 'JUnit", "20, 'AssertJ'", "40, 'Hamcrest"})
     void severalParameterizedTest(@AggregateWith(StudyAggregator.class) Study study){
@@ -79,7 +85,7 @@ class Study_Test {
         }
     }
 
-    @DisplayName("인자 테스트")
+    @DisplayName("custom 인자 테스트")
     @ParameterizedTest(name = "{index} {displayName} message = {0}")
     @ArgumentsSource(StudyProvider.class)
     void parameterizedTest(Study study){
