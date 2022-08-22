@@ -12,10 +12,11 @@ import java.util.Random;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Study {
-    private StudyStatus status;
+    private Long idx;
+    private StudyStatus status = StudyStatus.DRAFT;
     private Integer limit;
     private String name;
-    private Random random;
+    private Random random = new Random();
     private Member owner;
 
 
