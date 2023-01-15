@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/myproject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: z1z2z3z4
+    hikari:
+      connection-timeout: 3000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 3000
+
+  jpa:
+    database: mysql
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        ddl-auto: update
+
+  logging:
+    level:
+      org:
+        hibernate:
+          type:
+            descriptr:
+              sql: trace
+
