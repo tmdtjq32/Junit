@@ -15,18 +15,21 @@ import javax.persistence.*;
 public class Study {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "study_id")
     private Long idx;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private StudyStatus status;
 
     @Column
-    private Integer limit;
+    private Integer chapter;
 
     @Column
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member owner;
 
 

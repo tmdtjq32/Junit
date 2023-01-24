@@ -1,14 +1,16 @@
 package me.tmdtjq32.myproject.src.model.DTO;
 
-import lombok.Data;
-import me.tmdtjq32.myproject.src.model.entity.Member;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
 import me.tmdtjq32.myproject.src.model.enums.StudyStatus;
 
-@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@Builder
 public class StudyResDTO {
     private Long idx;
     private StudyStatus status;
     private Integer limit;
     private String name;
-    private Member owner;
 }
