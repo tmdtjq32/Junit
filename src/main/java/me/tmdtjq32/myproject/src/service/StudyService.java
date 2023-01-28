@@ -22,24 +22,28 @@ import java.util.Optional;
 @Service
 public class StudyService {
 
-    @NonNull
-    private final MemberRepository memberRepository;
-    @NonNull
+    private final MemberService memberService;
+
     private final StudyRepository studyRepository;
-    @NonNull
+
     private final StudyMapper studyMapper;
 
     public StudyResDTO createStudy(StudyReqDTO reqDTO){
-        Optional<Member> member = memberRepository.findById(reqDTO.getOwner());
+        try {
+            Optional<Member> member = memberService.findById(reqDTO.getOwner());
 
-        if (member.isEmpty()){
-            throw new IllegalArgumentException("Member is doesn`t exists id :" + reqDTO.getOwner());
+            if (member.isEmpty()){
+                throw new IllegalArgumentException("There is no memberId " + reqDTO.getOwner());
+            }
+
+            Study study = studyMapper.toStudy(reqDTO);
+
+            studyRepository.save(study);
+
+            return studyMapper.toStudyResDTO(study);
+        } catch (Exception err){
+            err.printStackTrace();
         }
-
-        Study study = studyMapper.toStudy(reqDTO);
-
-        studyRepository.save(study);
-
-        return studyMapper.toStudyResDTO(study);
+        return null;
     }
 }
