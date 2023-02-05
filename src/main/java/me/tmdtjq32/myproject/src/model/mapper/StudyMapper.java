@@ -26,5 +26,4 @@ public interface StudyMapper {
             @Mapping(target = "chapter", source = "limit")
     })
     Study toStudy(StudyReqDTO dto);
-
 }

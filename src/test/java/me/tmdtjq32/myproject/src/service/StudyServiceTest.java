@@ -9,17 +9,23 @@ import me.tmdtjq32.myproject.src.model.mapper.StudyMapper;
 import me.tmdtjq32.myproject.src.repository.MemberRepository;
 import me.tmdtjq32.myproject.src.repository.StudyRepository;
 import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.MySQLR2DBCDatabaseContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.Optional;
 
@@ -29,20 +35,23 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
+@Testcontainers
 class StudyServiceTest {
 
     @InjectMocks
     StudyService studyService;
 
-    @Mock
-    MemberService memberService;
+    @Mock MemberService memberService;
+    @Autowired StudyRepository studyRepository;
+    @Mock StudyMapper studyMapper;
 
-    @Mock
-    StudyRepository studyRepository;
-
-    @Mock
-    StudyMapper studyMapper;
+    @Container
+    static GenericContainer mySQLContainer = new GenericContainer(DockerImageName.parse("mysql"))
+            .withExposedPorts(3306)
+            .withEnv("MYSQL_DB_DATABASENAME", "test");
 
     @Test
     @DisplayName("createStudy 성공 케이스")
