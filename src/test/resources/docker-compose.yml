@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  study:
+    image: mysql
+    ports:
+      - 5432
+    environment:
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: study

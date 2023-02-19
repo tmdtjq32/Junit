@@ -1,11 +1,10 @@
 package me.tmdtjq32.myproject.src.controller;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import me.tmdtjq32.myproject.src.exception.BaseException;
 import me.tmdtjq32.myproject.src.model.DTO.StudyReqDTO;
 import me.tmdtjq32.myproject.src.model.DTO.StudyResDTO;
 import me.tmdtjq32.myproject.src.service.StudyService;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor

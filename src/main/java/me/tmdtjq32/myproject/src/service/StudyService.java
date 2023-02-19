@@ -1,9 +1,8 @@
 package me.tmdtjq32.myproject.src.service;
 
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import me.tmdtjq32.myproject.src.exception.BaseException;
+import me.tmdtjq32.myproject.src.exception.APIException;
+import me.tmdtjq32.myproject.src.exception.BaseErrorCode;
 import me.tmdtjq32.myproject.src.model.DTO.StudyReqDTO;
 import me.tmdtjq32.myproject.src.model.DTO.StudyResDTO;
 import me.tmdtjq32.myproject.src.model.entity.Member;
@@ -22,28 +21,23 @@ import java.util.Optional;
 @Service
 public class StudyService {
 
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     private final StudyRepository studyRepository;
 
     private final StudyMapper studyMapper;
 
-    public StudyResDTO createStudy(StudyReqDTO reqDTO){
-        try {
-            Optional<Member> member = memberService.findById(reqDTO.getOwner());
+    public StudyResDTO createStudy(StudyReqDTO reqDTO) {
+            Optional<Member> member = memberRepository.findById(reqDTO.getOwner());
 
-            if (member.isEmpty()){
-                throw new IllegalArgumentException("There is no memberId " + reqDTO.getOwner());
-            }
-
-            Study study = studyMapper.toStudy(reqDTO);
-
-            studyRepository.save(study);
-
-            return studyMapper.toStudyResDTO(study);
-        } catch (Exception err){
-            err.printStackTrace();
+        if (member.isEmpty()){
+            throw new APIException(BaseErrorCode.NO_RESULT);
         }
-        return null;
+
+        Study study = studyMapper.toStudy(reqDTO);
+
+        studyRepository.save(study);
+
+        return studyMapper.toStudyResDTO(study);
     }
 }

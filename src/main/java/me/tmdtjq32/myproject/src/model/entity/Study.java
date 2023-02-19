@@ -28,9 +28,8 @@ public class Study {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member owner;
+    @Column
+    private Long owner;
 
 
 }
