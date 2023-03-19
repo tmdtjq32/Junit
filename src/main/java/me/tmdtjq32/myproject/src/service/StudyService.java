@@ -27,11 +27,20 @@ public class StudyService {
 
     private final StudyMapper studyMapper;
 
-    public StudyResDTO createStudy(StudyReqDTO reqDTO) {
-            Optional<Member> member = memberRepository.findById(reqDTO.getOwner());
+    public StudyResDTO findStudy(Long id) {
+        Optional<Study> study = studyRepository.findById(id);
 
+        if (study.isEmpty()){
+            throw new APIException(BaseErrorCode.NO_RESULT,"cause by studyId " + id);
+        }
+
+        return studyMapper.toStudyResDTO(study.get());
+    }
+
+    public StudyResDTO createStudy(StudyReqDTO reqDTO) {
+        Optional<Member> member = memberRepository.findById(reqDTO.getOwner());
         if (member.isEmpty()){
-            throw new APIException(BaseErrorCode.NO_RESULT);
+            throw new APIException(BaseErrorCode.NO_RESULT,"cause by memberId " + reqDTO.getOwner());
         }
 
         Study study = studyMapper.toStudy(reqDTO);

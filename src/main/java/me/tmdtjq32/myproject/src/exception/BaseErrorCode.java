@@ -1,11 +1,12 @@
 package me.tmdtjq32.myproject.src.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public enum BaseErrorCode implements BaseError {
 
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, 401 ,"Invalid Parameter Included"),

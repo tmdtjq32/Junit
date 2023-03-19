@@ -14,6 +14,12 @@ public class StudyController {
     private final StudyService studyService;
 
     @ResponseBody
+    @GetMapping("/study/{id}")
+    public StudyResDTO findStudy(@PathVariable("id") Long id) {
+        return studyService.findStudy(id);
+    }
+
+    @ResponseBody
     @PostMapping("/study")
     public StudyResDTO createStudy(@RequestBody StudyReqDTO reqDTO) {
         return studyService.createStudy(reqDTO);

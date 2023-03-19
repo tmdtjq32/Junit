@@ -20,13 +20,14 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
         return BaseErrorResponse.builder()
                 .code(baseErrorCode.getCode())
                 .message(baseErrorCode.getMessage())
+                .subMessage(e.getDetail())
                 .build();
     }
 
     @ExceptionHandler(RuntimeException.class)
     public BaseErrorResponse handleRuntimeException(RuntimeException e) {
         return BaseErrorResponse.builder()
-                .error(e.getClass().getName())
+                .name(e.getClass().getName())
                 .code(BaseErrorCode.INTERNAL_SERVER_ERROR.getCode())
                 .message(e.getMessage())
                 .build();
