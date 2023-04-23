@@ -1,4 +1,8 @@
 spring:
+  config:
+    import: "optional:configserver:"
+  profiles:
+    active: chaos-monkey
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/myproject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
@@ -27,3 +31,38 @@ spring:
             descriptr:
               sql: trace
 
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+  command:
+      circuitBreaker:
+        requestVolumeThreshold: 1 # Circuit Breaker가 동작하도록 하는 요청의 최소 개수를 지정합니다.
+        errorThresholdPercentage: 50 # Circuit Breaker가 열리는 실패율 임계값을 지정합니다.
+        sleepWindowInMilliseconds: 5000 # Circuit Breaker가 닫힌 후 다시 열리기 전까지 대기하는 시간을 지정합니다.
+      fallback:
+        enabled: true
+
+
+chaos:
+  monkey:
+     enabled: true
+     watcher:
+       controller: false
+       restController: false
+       service: true
+       repository: false
+     assaults:
+       level: 1
+       exceptions-active: true
+
+management:
+  endpoint:
+    hystrix:
+      stream:
+        enabled: true
+    chaosmonkey:
+      enabled: true
+  endpoints:
+     web:
+       exposure:
+         include: "*"

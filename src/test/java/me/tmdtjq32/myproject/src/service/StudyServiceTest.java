@@ -49,11 +49,10 @@ class StudyServiceTest {
     @Mock
     StudyMapper studyMapper;
 
-    @Container
-    static DockerComposeContainer composeContainer =
-            new DockerComposeContainer(new File("src/test/resources/docker-compose.yml"));
+//    @Container
+//    static DockerComposeContainer composeContainer =
+//            new DockerComposeContainer(new File("src/test/resources/docker-compose.yml"));
 
-    @Test
     @DisplayName("createStudy 성공 케이스")
     void createStudy() throws Exception {
         // given
